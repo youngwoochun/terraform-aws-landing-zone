@@ -1,0 +1,103 @@
+version: 2.1
+
+references:
+
+base_image: &base_image
+  hashicorp/terraform:light
+
+working_directory: &working_directory
+  ~/Project-1
+
+default_config: &default_config
+  docker:
+    - image: *base_image
+  working_directory: *working_directory
+
+repo_cache_key: &repo_cache_key v1-repo-{{ .Branch }}-{{ .Revision }}
+
+restore_repo: &restore_repo
+  restore_cache:
+    key: *repo_cache_key
+
+save_repo: &save_repo
+  save_cache:
+    key: *repo_cache_key
+    paths:
+      - *working_directory
+
+terraform_init: &terraform_init
+  run:
+    name: terraform init
+    command: |
+      cd product-a
+      terraform init
+
+environment: &environment
+  parameters:
+    config:
+      type: env_var_name
+      default: CONFIG
+    region:
+      type: env_var_name
+      default: REGION
+
+jobs:
+  plan:
+    <<: *default_config
+    <<: *environment
+    steps:
+      - checkout
+      - *terraform_init
+      - *save_repo
+      - *restore_repo
+      - run:
+          name: terraform plan
+          command: |
+            cd product-a
+            terraform plan -input=false -var-file=./config/${<< parameters.region >>}.tfvars -var-file=./config/common.tfvars -var-file=./config/${<< parameters.config >>}.tfvars
+
+  apply:
+    <<: *default_config
+    <<: *environment
+    steps:
+      - *restore_repo
+      - run:
+          command: |
+            cd product-a
+            terraform apply --auto-approve -var-file=./config/${<< parameters.region >>}.tfvars -var-file=./config/common.tfvars -var-file=./config/${<< parameters.config >>}.tfvars
+
+  destroy:
+    <<: *default_config
+    <<: *environment
+    steps:
+      - *restore_repo
+      - run:
+          name: terraform destroy
+          command: |
+            cd product-a
+            terraform destroy --auto-approve -var-file=./config/${<< parameters.region >>}.tfvars -var-file=./config/common.tfvars -var-file=./config/${<< parameters.config >>}.tfvars
+
+workflows:
+  version: 2
+  Example_Workflow:
+    jobs:
+      - plan
+      - hold-apply:
+          type: approval
+          requires:
+            - plan
+      - apply:
+          requires:
+            - hold-apply
+      - hold-destroy:
+          type: approval
+          requires:
+            - apply
+      - destroy:
+          requires:
+            - hold-destroy
+          filters:
+            branches:
+              ignore:
+                - develop
+                - /feature-.*/

@@ -2,5 +2,3 @@
 terraform.tfstate
 terraform.tfstate.backup
 .git
-.circleci
-config
