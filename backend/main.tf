@@ -4,12 +4,12 @@ provider "aws" {
 
 module "s3" {
   source         = "./s3"
-  bucket         = "demo-app-v1"
+  bucket         = "terraform-state-product-a"
   acl            = "private"
   versioning     = true
   lifecycle_rule = true
 
-  dynamodb_name  = "demo-app-v1-lock"
+  dynamodb_name  = "terraform-state-product-a-lock"
   read_capacity  = 5
   write_capacity = 5
   hash_key       = "LockID"
