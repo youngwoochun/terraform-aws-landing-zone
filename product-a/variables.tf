@@ -5,6 +5,10 @@ variable "tags" {
   type = string
 }
 
+variable "cluster_name" {
+  type = string
+}
+
 variable "vpc_dns_support" {
   type = bool
 }
