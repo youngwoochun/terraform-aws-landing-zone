@@ -30,6 +30,6 @@ variable "map_public_ip_on_launch" {
 variable "state" {
   type = string
 }
-#variable "bastion_instance_defaults" {
-#  type = map(any)
-#}
+variable "bastion_instance_defaults" {
+  type = map(any)
+}
