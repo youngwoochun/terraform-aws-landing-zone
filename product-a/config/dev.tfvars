@@ -1,3 +1,3 @@
-tags = "dev_app"
+tags = "demo_app"
 
 cluster_name = "main_eks"
