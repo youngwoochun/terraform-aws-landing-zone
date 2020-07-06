@@ -120,7 +120,3 @@ resource "aws_security_group_rule" "bastion_ssh" {
   cidr_blocks       = ["73.126.78.8/32"]
   security_group_id = aws_security_group.bastion_sg.id
 }
-
-resource "aws_security_group_rule" "bastion_egress_cluster"
-  tpye = "egress"
-  
