@@ -2,7 +2,7 @@ region                  = "us-east-1"
 
 bastion_instance_defaults = {
   instance_count              = 1
-  ami                         = "ami-0d960646974cf9e5b"
+  ami                         = "ami-0e9089763828757e1"
   instance_type               = "t2.micro"
   key_name                    = "bastion_ssh_key"
   user_data                   = ""
