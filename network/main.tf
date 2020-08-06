@@ -117,12 +117,20 @@ resource "aws_security_group" "bastion_sg" {
 }
 
 resource "aws_security_group_rule" "bastion_ssh" {
-  description       = "Attached to Bastion Host and allow other resources only accessible by this Security Group"
   type              = "ingress"
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = var.localip
+  security_group_id = aws_security_group.bastion_sg.id
+}
+
+resource "aws_security_group_rule" "bastion_http" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = var.localip
   security_group_id = aws_security_group.bastion_sg.id
 }
 

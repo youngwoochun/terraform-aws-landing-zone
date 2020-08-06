@@ -3,6 +3,7 @@ provider "aws" {
 }
 module "network" {
   source                  = "../network"
+  localip                 = var.localip
   vpc_cidr                = var.vpc_cidr
   enable_dns_support      = var.vpc_dns_support
   enable_dns_hostnames    = var.vpc_dns_hostnames

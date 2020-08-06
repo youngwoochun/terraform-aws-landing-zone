@@ -1,3 +1,7 @@
+variable "localip" {
+  type = list(string)
+}
+
 variable "vpc_cidr" {
   type = string
 }
