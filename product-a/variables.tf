@@ -4,6 +4,9 @@ variable "region" {
 variable "tags" {
   type = string
 }
+variable "localip" {
+  type = list(string)
+}
 
 variable "cluster_name" {
   type = string

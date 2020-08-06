@@ -1,4 +1,4 @@
-localip                 = "73.126.78.8/32"
+localip                 = ["73.126.78.8/32"]
 vpc_cidr                = "10.123.0.0/16"
 vpc_dns_support         = true
 vpc_dns_hostnames       = true
