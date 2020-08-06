@@ -3,7 +3,7 @@ version: 2.1
 references:
 
 base_image: &base_image
-  hashicorp/terraform:light
+  youngwoochun/custom-docker-images:terraform_image
 
 working_directory: &working_directory
   ~/Project-1
