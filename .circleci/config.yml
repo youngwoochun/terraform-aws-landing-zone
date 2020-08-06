@@ -1,6 +1,7 @@
 version: 2.1
 
 references:
+  
 base_image: &base_image
   youngwoochun/custom-docker-images:terraform_image
 
