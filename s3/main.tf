@@ -4,7 +4,7 @@ provider "aws" {
 
 module "s3" {
   source         = "./s3"
-  bucket         = "terraform-state-product-a"
+  bucket         = "terraform-state-demo-product-a"
   acl            = "private"
   versioning     = true
   lifecycle_rule = true
