@@ -107,6 +107,17 @@ resource "aws_subnet" "private_subnet" {
   )
 }
 
+resource "aws_subnet" "db_subnet" {
+  count              = length(var.db_subnet_cidr)
+  vpc_id             = aws_vpc.main.id
+  cidr_block         = element(var.db_subnet_cidr,count.index)
+  availability_zone  = data.aws_availability_zones.az.names[count.index]
+  tags = map(
+    "Name", "${var.tags}-db_subnet",
+    "kubernetes.io/cluster/${var.cluster_name}", "shared"
+  )
+}
+
 resource "aws_security_group" "bastion_sg" {
   name        = "bastion_sg"
   description = "Bastion SG"
